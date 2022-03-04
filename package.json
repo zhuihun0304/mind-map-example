@@ -1,0 +1,24 @@
+{
+  "name": "mind-map-example",
+  "version": "0.2.0",
+  "description": "借鉴web思维导图",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "liutongbin",
+  "license": "ISC",
+  "dependencies": {
+    "@svgdotjs/svg.js": "^3.0.16",
+    "canvg": "^3.0.7",
+    "deepmerge": "^1.5.2",
+    "eventemitter3": "^4.0.7"
+  },
+  "keywords": [
+    "javascript",
+    "svg",
+    "mind-map",
+    "mindMap",
+    "MindMap"
+  ]
+}
