@@ -163,6 +163,10 @@ class Render {
         // 设置节点标签
         this.setNodeTag = this.setNodeTag.bind(this)
         this.mindMap.command.add('SET_NODE_TAG', this.setNodeTag)
+        // 自增方法example
+        this.setNodeChange = this.setNodeChange.bind(this)
+        this.mindMap.command.add('SET_NODE_CHANGEBTN', this.setNodeChange)
+
     }
 
     /** 
@@ -363,10 +367,13 @@ class Render {
                 first.parent.initRender = true
             }
             let index = this.getNodeIndex(first)
+            console.log('liutongbin===插入同级节点',first.parent.nodeData,first.parent.nodeData.children.length)
             first.parent.nodeData.children.splice(index + 1, 0, {
                 "data": {
                     "text": "分支主题",
-                    "expand": true
+                    "expand": true,
+                    "id":first.parent.nodeData + '_' + first.parent.nodeData.children.length,
+                    "isChangeBtn": false
                 },
                 "children": []
             })
@@ -387,10 +394,13 @@ class Render {
             if (!node.nodeData.children) {
                 node.nodeData.children = []
             }
+            console.log('liutongbin===插入子节点',node.nodeData,node.nodeData.children.length)
             node.nodeData.children.push({
                 "data": {
                     "text": "分支主题",
-                    "expand": true
+                    "expand": true,
+                    "id":node.nodeData.data.id + '_' + node.nodeData.children.length,
+                    "isChangeBtn": false
                 },
                 "children": []
             })
@@ -859,6 +869,23 @@ class Render {
             this.mindMap.render()
         }
     }
+    // 自增点击事件
+    // SET_NODE_CHANGEBTN
+    setNodeChange(node, isChangeBtn) {
+        console.log('liutongbin===自定义事件',node,isChangeBtn)
+        this.setNodeData(node, {
+            isChangeBtn
+        })
+        if (isChangeBtn) { // 展开
+            node.updateExpandBtnNode()
+        } else { // 收缩
+            node.updateExpandBtnNode()
+        }
+        this.mindMap.render()
+
+        
+    }
+
 }
 
 export default Render

@@ -64,7 +64,7 @@ class LogicalStructure extends Base {
                 } else if(newNode.dir === 'right') {
                     newNode.left = parent._node.left + parent._node.width + this.getMarginX(layerIndex)
                 } else if(newNode.dir === 'left') {
-                    newNode.left = parent._node.left - parent._node.width - this.getMarginX(layerIndex)
+                    newNode.left = parent._node.left - newNode.width - this.getMarginX(layerIndex)
 
                 }
                 
@@ -201,7 +201,7 @@ class LogicalStructure extends Base {
         } = node
         let lastHeight = node.top + node.height
         node.children.forEach((item, index) => {
-            let x1 = node.layerIndex === 0 ? left + width / 2 : item.dir === 'left' ? left - expandBtnSize : left + width + 20
+            let x1 = node.layerIndex === 0 ? left + width / 2 : item.dir === 'left' ? left : left + width
             let y1 = top + height / 2
             let x2 = item.dir === 'left' ? item.left + item.width : item.left
             let y2 = item.top + item.height / 2
@@ -232,7 +232,7 @@ class LogicalStructure extends Base {
             translateY
         } = btn.transform()
         // btn.translate(width - translateX, height / 2 - translateY)
-        let x = (node.dir === 'left' ? 0 - expandBtnSize : width) - translateX
+        let x = (node.dir === 'left' ? 0 - expandBtnSize - 15 : width + 15) - translateX
         let y = height / 2 - translateY
         btn.translate(x, y)
     }

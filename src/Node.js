@@ -71,6 +71,7 @@ class Node {
         this._tagData = null
         this._noteData = null
         this._expandBtn = null
+        this._isChangeBtn = false // 控制按钮变换形态
         this._lines = []
         // 尺寸信息
         this._rectInfo = {
@@ -617,9 +618,10 @@ class Node {
             return
         }
         // 需要移除展开收缩按钮
-        if (this._expandBtn && this.nodeData.children.length <= 0) {
+        if (this._expandBtn && this.nodeData.children.length <= 1) {
             this.removeExpandBtn()
-        } else if (!this._expandBtn && this.nodeData.children.length > 0) {// 需要添加展开收缩按钮
+        } else if (!this._expandBtn && this.nodeData.children.length > 1) {// 需要添加展开收缩按钮
+
             this.renderExpandBtn()
         } else {
             this.updateExpandBtnPos()
@@ -770,11 +772,12 @@ class Node {
      * @Desc: 创建或更新展开收缩按钮内容 
      */
     updateExpandBtnNode() {
+        console.log('liutongbin===updateExpandBtnNode',this.nodeData.data)
         if (this._expandBtn) {
             this._expandBtn.clear()
         }
         let iconSvg
-        if (this.nodeData.data.expand === false) {
+        if (this.nodeData.data.isChangeBtn === false) {
             iconSvg = btnsSvg.open
         } else {
             iconSvg = btnsSvg.close
@@ -826,7 +829,9 @@ class Node {
         this._expandBtn.on('click', (e) => {
             e.stopPropagation()
             // 展开收缩
-            this.mindMap.execCommand('SET_NODE_EXPAND', this, !this.nodeData.data.expand)
+            // this.mindMap.execCommand('SET_NODE_EXPAND', this, !this.nodeData.data.expand)
+            // 新增方法处理按钮显示
+            this.mindMap.execCommand('SET_NODE_CHANGEBTN', this, !this.nodeData.data.isChangeBtn)
             this.mindMap.emit('expand_btn_click', this)
         })
         this.group.add(this._expandBtn)
