@@ -830,8 +830,8 @@ class Node {
             e.stopPropagation()
             // 展开收缩
             // this.mindMap.execCommand('SET_NODE_EXPAND', this, !this.nodeData.data.expand)
-            // 新增方法处理按钮显示
-            this.mindMap.execCommand('SET_NODE_CHANGEBTN', this, !this.nodeData.data.isChangeBtn)
+            // 新增方法处理按钮显示 这个方法已经暴露到Toolbar.vue组件中了
+            // this.mindMap.execCommand('SET_NODE_CHANGEBTN', this, !this.nodeData.data.isChangeBtn)
             this.mindMap.emit('expand_btn_click', this)
         })
         this.group.add(this._expandBtn)
@@ -895,8 +895,8 @@ class Node {
      */
     getPaddingVale() {
         return {
-            paddingX: this.getStyle('paddingX', true, this.nodeData.data.isActive),
-            paddingY: this.getStyle('paddingY', true, this.nodeData.data.isActive)
+            paddingX: this.getStyle('paddingX'),
+            paddingY: this.getStyle('paddingY')
         }
     }
 
@@ -905,9 +905,10 @@ class Node {
      * @Date: 2021-05-04 21:48:49 
      * @Desc: 获取某个样式 
      */
-    getStyle(prop, root, isActive) {
-        let v = this.style.merge(prop, root, isActive)
+    getStyle(prop) {
+        let v = this.style.merge(prop)
         return v === undefined ? '' : v
+
     }
 
     /** 

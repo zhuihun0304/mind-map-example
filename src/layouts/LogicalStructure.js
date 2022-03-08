@@ -232,7 +232,7 @@ class LogicalStructure extends Base {
             translateY
         } = btn.transform()
         // btn.translate(width - translateX, height / 2 - translateY)
-        let x = (node.dir === 'left' ? 0 - expandBtnSize - 15 : width + 15) - translateX
+        let x = (node.dir === 'left' ? 0 - expandBtnSize - 25 : width + 25) - translateX
         let y = height / 2 - translateY
         btn.translate(x, y)
     }

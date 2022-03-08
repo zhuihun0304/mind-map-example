@@ -1,5 +1,5 @@
 import { tagColorList } from './utils/constant';
-const rootProp = ['paddingX', 'paddingY']
+const rootProp = []
 
 /** 
  * @Author: ltb 
@@ -52,8 +52,12 @@ class Style {
             defaultConfig = this.themeConfig
         } else if (this.ctx.layerIndex === 0) {// 根节点
             defaultConfig = this.themeConfig.root
-        } else if (this.ctx.layerIndex === 1) {// 二级节点
+        } else if (this.ctx.layerIndex === 1) {// 一级节点
+            defaultConfig = this.themeConfig.first
+        } else if (this.ctx.layerIndex === 2) {// 二级节点
             defaultConfig = this.themeConfig.second
+        } else if (this.ctx.layerIndex === 3) {// 三级节点
+            defaultConfig = this.themeConfig.third
         }
         // 激活状态
         if (isActive !== undefined ? isActive : this.ctx.nodeData.data.isActive) {
@@ -118,8 +122,6 @@ class Style {
     tagText(node, index) {
         node.fill({
             color: tagColorList[index].color
-        }).css({
-            'font-size': '12px'
         })
     }
 

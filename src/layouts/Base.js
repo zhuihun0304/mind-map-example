@@ -128,12 +128,6 @@ class Base {
         // return `M ${x1},${y1} L ${x2},${y2}`
         return `M ${x1},${y1} L ${x1},${y2}`
 
-        let cx1 = x1 + (x2 - x1) / 2
-        let cy1 = y1
-        let cx2 = cx1
-        let cy2 = y2
-        return `M ${x1},${y1} L ${cx1},${cy1} ${cx2},${cy2} ${x2},${y2}`
-
     }
 
     /** 
@@ -142,12 +136,11 @@ class Base {
      * @Desc: 三次贝塞尔曲线 
      */
     cubicBezierPath(x1, y1, x2, y2) {
-        let cx1 = x1 + (x2 - x1) / 2
+        let cx1 = (x2-x1>0) ? x2-25 : x2+25
         let cy1 = y1
         let cx2 = cx1
         let cy2 = y2
         return `M ${x1},${y1} L ${cx1},${cy1} ${cx2},${cy2} ${x2},${y2}`
-        return `M ${x1},${y1} L ${x2},${y2}`
 
     }
 

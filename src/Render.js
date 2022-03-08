@@ -44,6 +44,8 @@ class Render {
         this.activeNodeList = []
         // 根节点
         this.root = null
+        // 所有节点的text数组
+        this.textListAll = []
         // 文本编辑框，需要再bindEvent之前实例化，否则单击事件只能触发隐藏文本编辑框，而无法保存文本修改
         this.textEdit = new TextEdit(this)
         // 布局
@@ -166,7 +168,9 @@ class Render {
         // 自增方法example
         this.setNodeChange = this.setNodeChange.bind(this)
         this.mindMap.command.add('SET_NODE_CHANGEBTN', this.setNodeChange)
-
+        // 自增方法获取初始化数据所有的name数组
+        this.getAllText = this.getAllText.bind(this)
+        this.mindMap.command.add('GET_ALL_TEXT', this.getAllText)
     }
 
     /** 
@@ -774,9 +778,18 @@ class Render {
      * @Desc: 设置节点文本 
      */
     setNodeText(node, text) {
-        this.setNodeDataRender(node, {
-            text
-        })
+        console.log('liutongbin===设置节点文本111',node, text, this.textListAll)
+        if(this.textListAll.indexOf(text) === -1) {
+            // 证明修改的没有重复的
+            this.mindMap.emit('enter_text_change', this, text)
+            this.setNodeDataRender(node, {
+                text
+            })
+            this.textListAll.push(text)
+        } else {
+            // 修改的节点有重复的
+            alert('修改的名称节点不能重复')
+        }
     }
 
     /** 
@@ -882,8 +895,11 @@ class Render {
             node.updateExpandBtnNode()
         }
         this.mindMap.render()
-
-        
+    }
+    // 自增事件获取到所有的text数组
+    getAllText(textList) {
+    console.log('liutongbin===textList',textList);
+    this.textListAll = [...new Set(textList)]
     }
 
 }
