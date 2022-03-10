@@ -150,7 +150,15 @@ class Base {
      * @Desc:  获取节点的marginX
      */
     getMarginX(layerIndex) {
-        return layerIndex === 1 ? this.mindMap.themeConfig.second.marginX : this.mindMap.themeConfig.node.marginX;
+        if(layerIndex === 1) {
+            return this.mindMap.themeConfig.first.marginX
+        }else if(layerIndex === 2) {
+            return this.mindMap.themeConfig.second.marginX
+        }else if(layerIndex === 3) {
+            return this.mindMap.themeConfig.third.marginX
+        }else{
+            return this.mindMap.themeConfig.node.marginX
+        }
     }
 
     /** 
@@ -159,7 +167,15 @@ class Base {
      * @Desc: 获取节点的marginY
      */
     getMarginY(layerIndex) {
-        return layerIndex === 1 ? this.mindMap.themeConfig.second.marginY : this.mindMap.themeConfig.node.marginY;
+        if(layerIndex === 1) {
+            return this.mindMap.themeConfig.first.marginY
+        }else if(layerIndex === 2) {
+            return this.mindMap.themeConfig.second.marginY
+        }else if(layerIndex === 3) {
+            return this.mindMap.themeConfig.third.marginY
+        }else{
+            return this.mindMap.themeConfig.node.marginY
+        }
     }
 }
 

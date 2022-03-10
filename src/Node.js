@@ -73,6 +73,7 @@ class Node {
         this._expandBtn = null
         this._isChangeBtn = false // 控制按钮变换形态
         this._lines = []
+        this._tag = null // 主事件右上角标签
         // 尺寸信息
         this._rectInfo = {
             imgContentWidth: 0,
@@ -90,7 +91,8 @@ class Node {
         this.initRender = true
         // 初始化
         this.createNodeData()
-        this.getSize()
+        this.getSize(),
+        this.elementDom = null
     }
 
     /** 
@@ -153,6 +155,7 @@ class Node {
         this._hyperlinkData = this.createHyperlinkNode()
         this._tagData = this.createTagNode()
         this._noteData = this.createNoteNode()
+        this._tag = this.createTagTxtNode()
     }
 
     /** 
@@ -179,7 +182,7 @@ class Node {
      */
     removeAllNode() {
         // 节点内的内容
-        ;[this._imgData, this._iconData, this._textData, this._hyperlinkData, this._tagData, this._noteData].forEach((item) => {
+        ;[this._imgData, this._iconData, this._textData, this._hyperlinkData, this._tagData, this._noteData, this._tag].forEach((item) => {
             if (item && item.node) item.node.remove()
         })
         this._imgData = null
@@ -340,13 +343,49 @@ class Node {
      * @Desc: 创建文本节点 
      */
     createTextNode() {
+        console.log('liutongbin===createTextNode',this.layerIndex,this.nodeData.data)
         let g = new G()
         let fontSize = this.getStyle('fontSize', this.isRoot, this.nodeData.data.isActive)
         let lineHeight = this.getStyle('lineHeight', this.isRoot, this.nodeData.data.isActive)
         this.nodeData.data.text.split(/\n/img).forEach((item, index) => {
+            console.log('liutongbin===text',item)
             let node = new Text().text(item)
             this.style.text(node)
             node.y(fontSize * lineHeight * index)
+            g.add(node)
+            
+        })
+
+        let {
+            width,
+            height
+        } = g.bbox()
+        return {
+            node: g,
+            width,
+            height
+        }
+    }
+
+    createTagTxtNode() {
+        console.log('liutongbin===createTagTxtNode',this.nodeData.data)
+        let g = new G()
+        let newText
+        if(this.nodeData.data.ischoose) {
+            newText = '必选'
+        } else {
+            newText = '可选'
+        }
+        newText.split(/\n/img).forEach((item, index) => {
+            let node = new Text().text(item)
+            node.fill({
+                color: '#ffffff'
+            }).css({
+                'font-family': ' PingFangSC-Medium, PingFang SC;',
+                'font-size': '16',
+                'font-weight': '500'
+            })
+            node.y(0)
             g.add(node)
         })
         let {
@@ -488,6 +527,7 @@ class Node {
         // 创建组
         this.group = new G()
         this.draw.add(this.group)
+
         this.update(true)
         // 节点矩形
         this.style.rect(this.group.rect(width, height))
@@ -549,6 +589,51 @@ class Node {
             imgHeight + paddingY + (imgHeight > 0 && this._rectInfo.textContentHeight > 0 ? this.blockContentMargin : 0)
         )
         this.group.add(textContentNested)
+
+        if(this.layerIndex === 1){
+            console.log('liutongbin===this.group',this.nodeData.data.ischoose)
+            let choose = new G()
+            let iconNode = SVG(this._tag.node).size(32, 16)
+            iconNode.fill({ color: '#ffffff' }).translate(9, 5)
+            if(this.nodeData.data.ischoose) {
+                console.log('liutongbin===必选')
+                choose.rect(51, 27).fill({ color: '#8FD7FF' }).radius('5px')
+            } else {
+                console.log('liutongbin===可选')
+                choose.rect(51, 27).fill({ color: '#CFCFDE' }).radius('5px')
+            }
+            choose.add(iconNode)
+            let {
+                width
+            } = this
+            choose.translate(width - 25, -12)
+            this.group.add(choose)
+            choose.on('mouseover', (e) => {
+                e.stopPropagation()
+                choose.css({
+                    cursor: 'pointer'
+                })
+            })
+            choose.on('mouseout', (e) => {
+                e.stopPropagation()
+                choose.css({
+                    cursor: 'auto'
+                })
+            })
+            choose.on('click', (e) => {
+                console.log('liutongbin===click',this.nodeData.data)
+                e.stopPropagation()
+                if(this.nodeData.data.id !== 0) {
+                    this.nodeData.data.ischoose = !this.nodeData.data.ischoose
+                    this.renderNode()
+                }
+                
+                // this.mindMap.execCommand('SET_NODE_CHOOSE', this, !this.nodeData.data.ischoose)
+            })
+    
+
+
+        }
         // 单击事件，选中节点
         this.group.on('click', (e) => {
             this.mindMap.emit('node_click', this, e)
@@ -730,6 +815,7 @@ class Node {
      * @Desc: 连线 
      */
     renderLine() {
+        console.log('liutongbin===this.isRoot',this.isRoot)
         if (this.nodeData.data.expand === false) {
             return
         }
@@ -773,6 +859,10 @@ class Node {
      */
     updateExpandBtnNode() {
         console.log('liutongbin===updateExpandBtnNode',this.nodeData.data)
+        if(this.elementDom) {
+            document.body.removeChild(this.elementDom)
+        }
+
         if (this._expandBtn) {
             this._expandBtn.clear()
         }
@@ -788,6 +878,33 @@ class Node {
         fillNode.x(0).y(-this.expandBtnSize / 2)
         this.style.iconBtn(node, fillNode)
         this._expandBtn.add(fillNode).add(node)
+        this.elementDom = document.createElement('div')
+        this.elementDom.className = 'tootip-ctn'
+        this.elementDom.setAttribute("id", "tooTip-border")
+        this.elementDom.style.cssText = `
+            position: absolute;
+            padding: 8px 16px 10px 16px ;
+            border-radius: 5px;
+            font-size: 19px;
+            box-shadow: 0px 3px 11px 0px rgba(58,63,99,0.1);
+            display: none;
+            background: rgba(58, 63, 99, 0.7);
+            color: #FFFFFF;
+        `
+        this.elementDom.innerText = this.nodeData.data.isChangeBtn ? '任选其一' : '同时满足'
+        document.body.appendChild(this.elementDom)
+        node.on('mouseover', () => {
+            let { left, top, bottom } = node.node.getBoundingClientRect()
+            console.log('liutongbin===node',node,left, top)
+
+            this.elementDom.style.left = left + 'px'
+            this.elementDom.style.top = top - 55 +  'px'
+            this.elementDom.style.display = 'block'
+        })
+        node.on('mouseout', () => {
+            this.elementDom.style.display = 'none'
+            // document.body.removeChild(elementDom)
+        })
     }
 
     /** 
@@ -833,6 +950,10 @@ class Node {
             // 新增方法处理按钮显示 这个方法已经暴露到Toolbar.vue组件中了
             // this.mindMap.execCommand('SET_NODE_CHANGEBTN', this, !this.nodeData.data.isChangeBtn)
             this.mindMap.emit('expand_btn_click', this)
+            // console.log('liutongbin===this.elementDom',this.elementDom)
+            // document.body.removeChild(this.elementDom)
+
+
         })
         this.group.add(this._expandBtn)
         this.updateExpandBtnPos()

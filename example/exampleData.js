@@ -867,10 +867,21 @@ const data4 = {
 const rootData = {
     "root": {
         "data": {
-            "text": "根节点",
-            "id":"0"
+            "text": "",
         },
-        "children": []
+        "children": [
+            {
+                "data": {
+                    "text": "主事件",
+                    "expand": true,
+                    "id":0,
+                    "isChangeBtn": false,
+                    "isSelect":false,
+                    "ischoose":true
+                },
+                "children":[]
+            }
+        ]
     }
 }
 

@@ -76,6 +76,8 @@ export default class TextEdit {
      */
     showEditTextBox(node, rect) {
         this.mindMap.emit('before_show_text_edit')
+        console.log('liutongbin===showEditTextBox',node.nodeData.data.text)
+        localStorage.setItem("oldValText",node.nodeData.data.text)
         if (!this.textEditNode) {
             this.textEditNode = document.createElement('div')
             this.textEditNode.style.cssText = `position:fixed;box-sizing: border-box;background-color:#fff;box-shadow: 0 0 20px rgba(0,0,0,.5);padding: 3px 5px;margin-left: -5px;margin-top: -3px;outline: none;`

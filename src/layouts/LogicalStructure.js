@@ -197,9 +197,9 @@ class LogicalStructure extends Base {
             top,
             width,
             height,
-            expandBtnSize
+            translateY
         } = node
-        let lastHeight = node.top + node.height
+        let lastHeight = node.top + node.height + translateY
         node.children.forEach((item, index) => {
             let x1 = node.layerIndex === 0 ? left + width / 2 : item.dir === 'left' ? left : left + width
             let y1 = top + height / 2

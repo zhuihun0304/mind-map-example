@@ -46,6 +46,7 @@ class Render {
         this.root = null
         // 所有节点的text数组
         this.textListAll = []
+        this.oldtext = ''
         // 文本编辑框，需要再bindEvent之前实例化，否则单击事件只能触发隐藏文本编辑框，而无法保存文本修改
         this.textEdit = new TextEdit(this)
         // 布局
@@ -138,6 +139,10 @@ class Render {
         // 切换节点是否展开
         this.setNodeExpand = this.setNodeExpand.bind(this)
         this.mindMap.command.add('SET_NODE_EXPAND', this.setNodeExpand)
+        // this.setNodeChoose = this.setNodeChoose.bind(this)
+        // this.mindMap.command.add('SET_NODE_CHOOSE', this.setNodeChoose)
+
+        
         // 展开所有节点
         this.expandAllNode = this.expandAllNode.bind(this)
         this.mindMap.command.add('EXPAND_ALL', this.expandAllNode)
@@ -359,7 +364,7 @@ class Render {
      * @Date: 2021-05-04 13:19:54 
      * @Desc: 插入同级节点，多个节点只会操作第一个节点
      */
-    insertNode() {
+    insertNode(insertType) {
         if (this.activeNodeList.length <= 0) {
             return
         }
@@ -371,16 +376,34 @@ class Render {
                 first.parent.initRender = true
             }
             let index = this.getNodeIndex(first)
-            console.log('liutongbin===插入同级节点',first.parent.nodeData,first.parent.nodeData.children.length)
-            first.parent.nodeData.children.splice(index + 1, 0, {
-                "data": {
-                    "text": "分支主题",
-                    "expand": true,
-                    "id":first.parent.nodeData + '_' + first.parent.nodeData.children.length,
-                    "isChangeBtn": false
-                },
-                "children": []
-            })
+            console.log('liutongbin===插入同级节点',index,insertType, first.parent.nodeData,first.parent.nodeData.children.length)
+            if(insertType === 'upInsert') {
+                first.parent.nodeData.children.splice(index, 0, {
+                    "data": {
+                        "text": "分支主题向上插入",
+                        "expand": true,
+                        "id":first.parent.nodeData + '_' + first.parent.nodeData.children.length,
+                        "isChangeBtn": false,
+                        "isSelect":false,
+                        "ischoose":false
+
+                    },
+                    "children": []
+                })
+            } else {
+                first.parent.nodeData.children.splice(index + 1, 0, {
+                    "data": {
+                        "text": "分支主题向下插入",
+                        "expand": true,
+                        "id":first.parent.nodeData + '_' + first.parent.nodeData.children.length,
+                        "isChangeBtn": false,
+                        "isSelect":false,
+                        "ischoose":false
+                    },
+                    "children": []
+                })
+            }
+            
             this.mindMap.render()
         }
     }
@@ -391,7 +414,8 @@ class Render {
      * @Desc: 插入子节点 
      */
     insertChildNode() {
-        if (this.activeNodeList.length <= 0) {
+        console.log('liutongbin===this.activeNodeList',this.activeNodeList)
+        if (this.activeNodeList.length <= 0 || this.activeNodeList[0].layerIndex === 4) {
             return
         }
         this.activeNodeList.forEach((node, index) => {
@@ -729,6 +753,14 @@ class Render {
         }
         this.mindMap.render()
     }
+    // setNodeChoose(node, ischoose) {
+    //     console.log('liutongbin===setNodeChoose',node,ischoose)
+    //     this.setNodeData(node, {
+    //         ischoose
+    //     })
+    //     this.mindMap.render()
+
+    // }
 
     /** 
      * @Author: ltb 
@@ -778,9 +810,12 @@ class Render {
      * @Desc: 设置节点文本 
      */
     setNodeText(node, text) {
-        console.log('liutongbin===设置节点文本111',node, text, this.textListAll)
+        console.log('liutongbin===设置节点文本111',node, text, this.textListAll,localStorage.getItem("oldValText"),'ssss')
+        let oldVal = localStorage.getItem("oldValText")
+
         if(this.textListAll.indexOf(text) === -1) {
             // 证明修改的没有重复的
+            this.textListAll.splice(this.textListAll.indexOf(oldVal),1)
             this.mindMap.emit('enter_text_change', this, text)
             this.setNodeDataRender(node, {
                 text
@@ -898,8 +933,8 @@ class Render {
     }
     // 自增事件获取到所有的text数组
     getAllText(textList) {
-    console.log('liutongbin===textList',textList);
-    this.textListAll = [...new Set(textList)]
+        console.log('liutongbin===textList',textList);
+        this.textListAll = [...new Set(textList)]
     }
 
 }

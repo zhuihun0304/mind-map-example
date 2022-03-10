@@ -32,8 +32,8 @@
         fontWeight: '500',
         fontStyle: 'normal',
         lineHeight: 1.5,
-        paddingX: 42,
-        paddingY: 13,
+        paddingX: 0,
+        paddingY: 0,
         borderColor: '#fff',
         borderWidth: 0,
         borderDasharray: 'none',
@@ -47,8 +47,8 @@
     },
     // 一级节点样式
     first: {
-        marginX: 100,
-        marginY: 30,
+        marginX: 0,
+        marginY: 34,
         fillColor: '#fff',
         fontFamily: 'PingFangSC-Medium, PingFang SC',
         color: '#565656',
@@ -71,8 +71,8 @@
     },
     // 二级节点样式
     second: {
-        marginX: 100,
-        marginY: 30,
+        marginX: 61,
+        marginY: 52,
         fillColor: '#fff',
         fontFamily: 'PingFangSC-Medium, PingFang SC',
         color: '#565656',
@@ -95,8 +95,8 @@
     },
     // 三级节点样式
     third: {
-        marginX: 100,
-        marginY: 30,
+        marginX: 59,
+        marginY: 52,
         fillColor: '#fff',
         fontFamily: 'PingFangSC-Medium, PingFang SC',
         color: '#565656',
