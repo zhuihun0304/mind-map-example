@@ -97,7 +97,7 @@ class Base {
      */
     setNodeCenter(node) {
         node.left = (this.mindMap.width - node.width) / 2
-        node.top = (this.mindMap.height - node.height) / 2
+        node.top = (this.mindMap.height - node.height) / 2 - 34 - node.height
     }
 
     /** 

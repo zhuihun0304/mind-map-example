@@ -380,7 +380,7 @@ class Render {
             if(insertType === 'upInsert') {
                 first.parent.nodeData.children.splice(index, 0, {
                     "data": {
-                        "text": "分支主题向上插入",
+                        "text": "主事件",
                         "expand": true,
                         "id":first.parent.nodeData + '_' + first.parent.nodeData.children.length,
                         "isChangeBtn": false,
@@ -393,7 +393,7 @@ class Render {
             } else {
                 first.parent.nodeData.children.splice(index + 1, 0, {
                     "data": {
-                        "text": "分支主题向下插入",
+                        "text": "主事件",
                         "expand": true,
                         "id":first.parent.nodeData + '_' + first.parent.nodeData.children.length,
                         "isChangeBtn": false,
