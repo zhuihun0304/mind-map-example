@@ -176,6 +176,9 @@ class Render {
         // 自增方法获取初始化数据所有的name数组
         this.getAllText = this.getAllText.bind(this)
         this.mindMap.command.add('GET_ALL_TEXT', this.getAllText)
+        // 自增方法，清除全局指令
+        this.removeCutKeys = this.removeCutKeys.bind(this)
+        this.mindMap.command.add('REMOVE_CUTKEYS', this.removeCutKeys)
     }
 
     /** 
@@ -936,7 +939,11 @@ class Render {
         console.log('liutongbin===textList',textList);
         this.textListAll = [...new Set(textList)]
     }
-
+    // 删除自定义注册全局事件，delete键和回车键enter
+    removeCutKeys(value) {
+        console.log('刘桐宾===进入页面清初自定义指令',value)
+        this.mindMap.emit('before_show_text_edit')
+    }
 }
 
 export default Render
