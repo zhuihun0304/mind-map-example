@@ -66,9 +66,9 @@ class View {
         this.mindMap.event.on('mousewheel', (e, dir) => {
             // // 放大
             if (dir === 'down') {
-                this.enlarge()
-            } else { // 缩小
                 this.narrow()
+            } else { // 缩小
+                this.enlarge()
             }
         })
     }
