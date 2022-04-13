@@ -48,9 +48,9 @@ export default class TextEdit {
             this.hideEditTextBox()
         })
         // 注册回车快捷键
-        this.mindMap.keyCommand.addShortcut('Enter', () => {
-            this.hideEditTextBox()
-        })
+        // this.mindMap.keyCommand.addShortcut('Enter', () => {
+        //     this.hideEditTextBox()
+        // })
         // 注册编辑快捷键
         this.mindMap.keyCommand.addShortcut('F2', () => {
             if (this.renderer.activeNodeList.length <= 0) {
@@ -92,6 +92,8 @@ export default class TextEdit {
         this.textEditNode.style.top = rect.top + 'px'
         this.textEditNode.style.display = 'block'
         this.showTextEdit = true
+        this.textEditNode.style.boxShadow = 'none'
+        this.textEditNode.style.textShadow = 'none'
         // 选中文本
         this.selectNodeText()
     }
