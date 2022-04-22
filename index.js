@@ -9,7 +9,7 @@ import Command from './src/Command'
 import BatchExecution from './src/BatchExecution'
 import Export from './src/Export'
 import Select from './src/Select'
-import Drag from './src/Drag'
+// import Drag from './src/Drag'
 import {
     layoutValueList
 } from './src/utils/constant'
@@ -111,9 +111,9 @@ class MindMap {
         })
 
         // 拖动类
-        this.drag = new Drag({
-            mindMap: this
-        })
+        // this.drag = new Drag({
+        //     mindMap: this
+        // })
 
         // 批量执行类
         this.batchExecution = new BatchExecution()
