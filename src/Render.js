@@ -594,7 +594,7 @@ class Render {
      * @Date: 2021-05-04 13:40:39 
      * @Desc: 移除节点 
      */
-    removeNode() {
+    removeNode(textValue) {
         if (this.activeNodeList.length <= 0) {
             return
         }
@@ -613,6 +613,8 @@ class Render {
                 i--
             }
         }
+        console.log('liutongbin===removeNode',this.textListAll,textValue)
+        this.textListAll.splice(this.textListAll.indexOf(textValue),1)
         this.mindMap.emit('node_active', null, [])
         this.mindMap.render()
     }
