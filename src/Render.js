@@ -57,6 +57,8 @@ class Render {
         this.registerCommands()
         // 注册快捷键
         this.registerShortcutKeys()
+        this.nameList = []
+
     }
 
     /** 
@@ -179,6 +181,9 @@ class Render {
         // 自增方法，清除全局指令
         this.removeCutKeys = this.removeCutKeys.bind(this)
         this.mindMap.command.add('REMOVE_CUTKEYS', this.removeCutKeys)
+        // 自增方法，获取节点所有的text
+        this.getAllTextNode = this.getAllTextNode.bind(this)
+        this.mindMap.command.add('GET_ALL_TEXT_NODE', this.getAllTextNode)
     }
 
     /** 
@@ -379,7 +384,6 @@ class Render {
                 first.parent.initRender = true
             }
             let index = this.getNodeIndex(first)
-            console.log('liutongbin===插入同级节点',index,insertType, first.parent.nodeData,first.parent.nodeData.children.length)
             if(insertType === 'upInsert') {
                 first.parent.nodeData.children.splice(index, 0, {
                     "data": {
@@ -417,7 +421,6 @@ class Render {
      * @Desc: 插入子节点 
      */
     insertChildNode() {
-        console.log('liutongbin===this.activeNodeList',this.activeNodeList)
         if (this.activeNodeList.length <= 0 || this.activeNodeList[0].layerIndex === 4) {
             return
         }
@@ -425,10 +428,9 @@ class Render {
             if (!node.nodeData.children) {
                 node.nodeData.children = []
             }
-            console.log('liutongbin===插入子节点',node.nodeData,node.nodeData.children.length)
             node.nodeData.children.push({
                 "data": {
-                    "text": "分支主题",
+                    "text": "子事件",
                     "expand": true,
                     "id":node.nodeData.data.id + '_' + node.nodeData.children.length,
                     "isChangeBtn": false
@@ -613,8 +615,7 @@ class Render {
                 i--
             }
         }
-        console.log('liutongbin===removeNode',this.textListAll,textValue)
-        this.textListAll.splice(this.textListAll.indexOf(textValue),1)
+        this.nameList = []
         this.mindMap.emit('node_active', null, [])
         this.mindMap.render()
     }
@@ -759,7 +760,6 @@ class Render {
         this.mindMap.render()
     }
     // setNodeChoose(node, ischoose) {
-    //     console.log('liutongbin===setNodeChoose',node,ischoose)
     //     this.setNodeData(node, {
     //         ischoose
     //     })
@@ -815,7 +815,6 @@ class Render {
      * @Desc: 设置节点文本 
      */
     setNodeText(node, text) {
-        console.log('liutongbin===设置节点文本111',node, text, this.textListAll,localStorage.getItem("oldValText"),'ssss')
         let oldVal = localStorage.getItem("oldValText")
 
         if(this.textListAll.indexOf(text) === -1) {
@@ -925,7 +924,6 @@ class Render {
     // 自增点击事件
     // SET_NODE_CHANGEBTN
     setNodeChange(node, isChangeBtn) {
-        console.log('liutongbin===自定义事件',node,isChangeBtn)
         this.setNodeData(node, {
             isChangeBtn
         })
@@ -937,13 +935,21 @@ class Render {
         this.mindMap.render()
     }
     // 自增事件获取到所有的text数组
-    getAllText(textList) {
-        console.log('liutongbin===textList',textList);
-        this.textListAll = [...new Set(textList)]
+    getAllText() {
+        this.textListAll = [...new Set(this.nameList)]
+    }
+    getAllTextNode(obj) {
+        if(obj && obj.data) {
+            this.nameList.push(obj.data.text)
+            if(obj.children.length > 0) {
+              for( let i = 0; i <  obj.children.length; i++) {
+                this.getAllTextNode(obj.children[i])
+              }
+            }
+        }
     }
     // 删除自定义注册全局事件，delete键和回车键enter
     removeCutKeys(value) {
-        console.log('刘桐宾===进入页面清初自定义指令',value)
         this.mindMap.emit('before_show_text_edit')
     }
 }

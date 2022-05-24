@@ -76,7 +76,6 @@ export default class TextEdit {
      */
     showEditTextBox(node, rect) {
         this.mindMap.emit('before_show_text_edit')
-        console.log('liutongbin===showEditTextBox',node.nodeData.data.text)
         localStorage.setItem("oldValText",node.nodeData.data.text)
         if (!this.textEditNode) {
             this.textEditNode = document.createElement('div')
@@ -117,9 +116,13 @@ export default class TextEdit {
      * @Desc: 隐藏文本编辑框 
      */
     hideEditTextBox() {
+        console.warn(2222222222,this.showTextEdit)
+        let storeData = JSON.parse(localStorage.getItem('SIMPLE_MIND_MAP_DATA'))
+        this.mindMap.execCommand('GET_ALL_TEXT_NODE', storeData.root)
         if (!this.showTextEdit) {
             return
         }
+        this.mindMap.execCommand('GET_ALL_TEXT')
         this.renderer.activeNodeList.forEach((node) => {
             let str = getStrWithBrFromHtml(this.textEditNode.innerHTML)
             this.mindMap.execCommand('SET_NODE_TEXT', node, str)

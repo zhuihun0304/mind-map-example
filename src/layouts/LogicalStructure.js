@@ -58,7 +58,6 @@ class LogicalStructure extends Base {
                 } else { // 节点生长方向
                     newNode.dir = index % 2 === 0 ? 'right' : 'left'
                 }
-                console.log('liutongbin===newNode.dir',newNode)
                 if(layerIndex === 1){
                     newNode.left = parent._node.left + parent._node.width/2 - newNode.width/2
                 } else if(newNode.dir === 'right') {

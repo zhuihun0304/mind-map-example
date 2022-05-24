@@ -12,7 +12,6 @@ class Command {
      * @Desc: 构造函数 
      */
     constructor(opt = {}) {
-        console.log('刘桐宾===constructor')
         this.opt = opt
         this.mindMap = opt.mindMap
         this.commands = {}
@@ -108,7 +107,6 @@ class Command {
         let data = this.getCopyData()
         this.history.push(simpleDeepClone(data))
         this.activeHistoryIndex = this.history.length - 1
-        console.log('刘桐宾===addHistory',data)
         this.mindMap.emit('data_change', data)
         this.mindMap.emit('back_forward', this.activeHistoryIndex, this.history.length)
     }
@@ -147,7 +145,6 @@ class Command {
      * @Desc: 获取渲染树数据副本 
      */
     getCopyData() {
-        console.log('刘桐宾===getCopyData',this.mindMap.renderer.renderTree)
         return copyRenderTree({}, this.mindMap.renderer.renderTree)
     }
 }

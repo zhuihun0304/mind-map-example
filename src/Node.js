@@ -343,12 +343,10 @@ class Node {
      * @Desc: 创建文本节点 
      */
     createTextNode() {
-        console.log('liutongbin===createTextNode',this.layerIndex,this.nodeData.data)
         let g = new G()
         let fontSize = this.getStyle('fontSize', this.isRoot, this.nodeData.data.isActive)
         let lineHeight = this.getStyle('lineHeight', this.isRoot, this.nodeData.data.isActive)
         this.nodeData.data.text.split(/\n/img).forEach((item, index) => {
-            console.log('liutongbin===text',item)
             let node = new Text().text(item)
             this.style.text(node)
             node.y(fontSize * lineHeight * index)
@@ -368,7 +366,6 @@ class Node {
     }
 
     createTagTxtNode() {
-        console.log('liutongbin===createTagTxtNode',this.nodeData.data)
         let g = new G()
         let newText
         if(this.nodeData.data.ischoose) {
@@ -591,15 +588,12 @@ class Node {
         this.group.add(textContentNested)
 
         if(this.layerIndex === 1){
-            console.log('liutongbin===this.group',this.nodeData.data.ischoose)
             let choose = new G()
             let iconNode = SVG(this._tag.node).size(32, 16)
             iconNode.fill({ color: '#ffffff' }).translate(9, 5)
             if(this.nodeData.data.ischoose) {
-                console.log('liutongbin===必选')
                 choose.rect(51, 27).fill({ color: '#8FD7FF' }).radius('5px')
             } else {
-                console.log('liutongbin===可选')
                 choose.rect(51, 27).fill({ color: '#CFCFDE' }).radius('5px')
             }
             choose.add(iconNode)
@@ -621,7 +615,6 @@ class Node {
                 })
             })
             choose.on('click', (e) => {
-                console.log('liutongbin===click',this.nodeData.data)
                 e.stopPropagation()
                 if(this.nodeData.data.id !== 0) {
                     this.nodeData.data.ischoose = !this.nodeData.data.ischoose
@@ -815,7 +808,6 @@ class Node {
      * @Desc: 连线 
      */
     renderLine() {
-        console.log('liutongbin===this.isRoot',this.isRoot)
         if (this.nodeData.data.expand === false) {
             return
         }
@@ -858,7 +850,6 @@ class Node {
      * @Desc: 创建或更新展开收缩按钮内容 
      */
     updateExpandBtnNode() {
-        console.log('liutongbin===updateExpandBtnNode',this.nodeData.data)
         if(this.elementDom) {
             document.body.removeChild(this.elementDom)
         }
@@ -895,8 +886,6 @@ class Node {
         document.body.appendChild(this.elementDom)
         node.on('mouseover', () => {
             let { left, top, bottom } = node.node.getBoundingClientRect()
-            console.log('liutongbin===node',node,left, top)
-
             this.elementDom.style.left = left + 'px'
             this.elementDom.style.top = top - 55 +  'px'
             this.elementDom.style.display = 'block'
@@ -950,7 +939,6 @@ class Node {
             // 新增方法处理按钮显示 这个方法已经暴露到Toolbar.vue组件中了
             // this.mindMap.execCommand('SET_NODE_CHANGEBTN', this, !this.nodeData.data.isChangeBtn)
             this.mindMap.emit('expand_btn_click', this)
-            // console.log('liutongbin===this.elementDom',this.elementDom)
             // document.body.removeChild(this.elementDom)
 
 
