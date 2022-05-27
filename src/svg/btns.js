@@ -4,7 +4,6 @@
  * @Desc: 与 
  */
  const close = `<svg width="18px" height="18px" viewBox="0 0 18 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
- <title>Badge/Default/OverflowCount备份 3</title>
  <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
      <g id="第二步2(勾选重复取数按钮)" transform="translate(-735.000000, -410.000000)">
          <g id="编组-8" transform="translate(284.000000, 172.000000)">
@@ -30,7 +29,6 @@
   * @Desc: 或
   */
  const open = `<svg width="18px" height="18px" viewBox="0 0 18 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
- <title>Badge/Default/OverflowCount备份 4</title>
  <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
      <g id="第二步2(勾选重复取数按钮)" transform="translate(-596.000000, -376.000000)">
          <g id="编组-8" transform="translate(284.000000, 172.000000)">
