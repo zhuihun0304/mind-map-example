@@ -1,6 +1,6 @@
 {
   "name": "mind-map-example",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "借鉴web思维导图",
   "main": "index.js",
   "scripts": {

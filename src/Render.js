@@ -615,7 +615,7 @@ class Render {
                 i--
             }
         }
-        this.nameList = []
+        this.textListAll.splice(this.textListAll.indexOf(textValue),1)
         this.mindMap.emit('node_active', null, [])
         this.mindMap.render()
     }
@@ -816,14 +816,19 @@ class Render {
      */
     setNodeText(node, text) {
         let oldVal = localStorage.getItem("oldValText")
-
-        if(this.textListAll.indexOf(text) === -1) {
+        if(text.length > 50) {
+            alert('长度需在50个字符以内')
+        }else if(this.textListAll.indexOf(text) === -1) {
             // 证明修改的没有重复的
-            this.textListAll.splice(this.textListAll.indexOf(oldVal),1)
-            this.mindMap.emit('enter_text_change', this, text)
+            if(this.textListAll.indexOf(oldVal) !== -1) {
+                this.textListAll.splice(this.textListAll.indexOf(oldVal),1)
+            }
+            // this.textListAll.splice(this.textListAll.indexOf(oldVal),1)
+            // this.mindMap.emit('enter_text_change', this, text)
             this.setNodeDataRender(node, {
                 text
             })
+            localStorage.removeItem("oldValText")
             this.textListAll.push(text)
         } else {
             // 修改的节点有重复的
