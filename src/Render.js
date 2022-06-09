@@ -5,6 +5,7 @@ import CatalogOrganization from './layouts/CatalogOrganization'
 import OrganizationStructure from './layouts/OrganizationStructure'
 import TextEdit from './TextEdit'
 import { copyNodeTree, simpleDeepClone, walk } from './utils'
+import { Toast } from './Toast'
 
 // 布局列表
 const layouts = {
@@ -817,7 +818,7 @@ class Render {
     setNodeText(node, text) {
         let oldVal = localStorage.getItem("oldValText")
         if(text.length > 50) {
-            alert('长度需在50个字符以内')
+            Toast('长度需在50个字符以内',500)
         }else if(this.textListAll.indexOf(text) === -1) {
             // 证明修改的没有重复的
             if(this.textListAll.indexOf(oldVal) !== -1) {
@@ -832,7 +833,7 @@ class Render {
             this.textListAll.push(text)
         } else {
             // 修改的节点有重复的
-            alert('修改的名称节点不能重复')
+            Toast('修改的名称节点不能重复')
         }
     }
 
