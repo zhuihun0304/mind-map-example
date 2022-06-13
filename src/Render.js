@@ -185,6 +185,9 @@ class Render {
         // 自增方法，获取节点所有的text
         this.getAllTextNode = this.getAllTextNode.bind(this)
         this.mindMap.command.add('GET_ALL_TEXT_NODE', this.getAllTextNode)
+        // 新增节点时候清空nameList
+        this.clearNameList= this.clearNameList.bind(this)
+        this.mindMap.command.add('CLEAR_NAME_LIST',this.clearNameList)
     }
 
     /** 
@@ -824,7 +827,7 @@ class Render {
             if(this.textListAll.indexOf(oldVal) !== -1) {
                 this.textListAll.splice(this.textListAll.indexOf(oldVal),1)
             }
-            // this.textListAll.splice(this.textListAll.indexOf(oldVal),1)
+
             // this.mindMap.emit('enter_text_change', this, text)
             this.setNodeDataRender(node, {
                 text
@@ -953,6 +956,9 @@ class Render {
               }
             }
         }
+    }
+    clearNameList() {
+        this.nameList = []
     }
     // 删除自定义注册全局事件，delete键和回车键enter
     removeCutKeys(value) {
